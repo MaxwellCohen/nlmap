@@ -102,10 +102,11 @@
             tooltip: {
               headerFormat: '',
               pointFormatter: function () {
-                return '<b>' + this.name + ' - ' + this.value + '%</b><br/>' +
-                  '<p><b>Economist : </b>' + this.econ + '%<p><br/>' +
-                  '<p><b>538 : </b>' + this.fte + '%<p><br/>' +
-                  '<p><b>JHK : </b> ' + this.JHK + '%<p><br/>';
+                return '<b>' + this.name + '</b><br/>' +
+                  '<p><b>' + formatVal(this.value) + '</b><br/>' +
+                  '<p><b>538 : </b>' + formatVal(this.fte) + '<p><br/>' +
+                  '<p><b>Economist : </b>' + formatVal(this.econ) + '<p><br/>' +
+                  '<p><b>JHK : </b> ' + formatVal(this.JHK) + '<p><br/>';
               }
             },
             cursor: 'pointer'
@@ -146,6 +147,11 @@
           '</div>');
       }
     });
+
+
+    function formatVal (v) {
+      return "Biden - " + Math.round(v) + "%, Trump - " + Math.round(100 - v) +"%"
+    }
   </script>
 </body>
 
