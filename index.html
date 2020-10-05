@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <div id="container">
+  <div id="container" style="height:100vh">
     <div class="loading">
       <i class="icon-spinner icon-spin icon-large"></i>
       Loading data from Google Spreadsheets...
@@ -48,6 +48,7 @@
           title: {
             text: 'Neoliberal Election Model for ' + percent[0].replace('Biden win prob. on ', '')
           },
+          height: '100%',
           legend: {
             align: 'right',
             verticalAlign: 'top',
