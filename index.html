@@ -1,0 +1,152 @@
+<html>
+
+<head>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+  <script src="https://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"
+    type="text/css" />
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"
+    type="text/css" />
+</head>
+
+<body>
+  <div id="container">
+    <div class="loading">
+      <i class="icon-spinner icon-spin icon-large"></i>
+      Loading data from Google Spreadsheets...
+    </div>
+  </div>
+
+
+
+  <script>
+    Highcharts.data({
+      googleSpreadsheetKey: '1Wp69FR31NZd3nTKIHJKfZKgoa2FQ78fQIpzx8qmzD3M',
+      parsed: function (columns) {
+        var keys = columns[2];
+        var names = columns[0];
+        var percent = columns[1];
+        var econ = columns[3];
+        var fte = columns[4];
+        var JHK = columns[6];
+        var mapData = Highcharts.maps['countries/us/us-all'];
+        var options = {
+          chart: {
+            type: 'map',
+            map: mapData,
+            renderTo: 'container',
+            borderWidth: 1
+          },
+          title: {
+            text: 'Neoliberal Election Model for ' + percent[0].replace('Biden win prob. on ', '')
+          },
+          legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            x: -100,
+            y: 70,
+            floating: true,
+            layout: 'vertical',
+            valueDecimals: 0,
+            backgroundColor: ( // theme
+              Highcharts.defaultOptions &&
+              Highcharts.defaultOptions.legend &&
+              Highcharts.defaultOptions.legend.backgroundColor
+            ) || 'rgba(255, 255, 255, 0.85)'
+          },
+          mapNavigation: {
+            enabled: true,
+            enableButtons: false
+          },
+          colorAxis: {
+            dataClasses: [{
+                from: 0,
+                to: 35,
+                color: '#C40401',
+                name: 'Trump'
+              }, {
+                from: 35,
+                to: 65,
+                color: '#9E8767',
+                name: 'Toss up'
+              },
+              {
+                from: 65,
+                to: 100,
+                color: '#0200D0',
+                name: 'Biden'
+              }
+            ]
+          },
+          series: [{
+            data: [],
+            joinBy: 'postal-code',
+            dataLabels: {
+              enabled: true,
+              color: '#FFFFFF',
+              format: '{point.postal-code}',
+              style: {
+                textTransform: 'uppercase'
+              }
+            },
+            name: 'Biden Win probability',
+            tooltip: {
+              headerFormat: '',
+              pointFormatter: function () {
+                console.log(this)
+                return '<b>' + this.name + ' - ' + this.value + '%</b><br/>' +
+                  '<p><b>Economist : </b>' + this.econ + '%<p><br/>' +
+                  '<p><b>538 : </b>' + this.fte + '%<p><br/>' +
+                  '<p><b>JHK : </b> ' + this.JHK + '%<p><br/>';
+              }
+            },
+            cursor: 'pointer'
+          }, {
+            name: 'Separators',
+            type: 'mapline',
+            nullColor: 'silver',
+            showInLegend: false,
+            enableMouseTracking: false
+          }]
+        };
+        keys = keys.map(function (key) {
+          return key.toUpperCase();
+        });
+        Highcharts.each(mapData.features, function (mapPoint) {
+          if (mapPoint.properties['postal-code']) {
+            var postalCode = mapPoint.properties['postal-code'],
+              i = $.inArray(postalCode, keys);
+            options.series[0].data.push(Highcharts.extend({
+              value: percent[i].toFixed(2),
+              econ: econ[i].toFixed(2),
+              fte: fte[i].toFixed(2),
+              JHK: JHK[i].toFixed(2),
+              name: names[i],
+              'postal-code': postalCode,
+              row: i
+            }, mapPoint));
+          }
+        });
+
+        window.chart = new Highcharts.Map(options);
+      },
+
+      error: function () {
+        $('#container').html('<div class="loading">' +
+          '<i class="icon-frown icon-large"></i> ' +
+          '<p>Error loading data from Google Spreadsheets</p>' +
+          '</div>');
+      }
+    });
+  </script>
+</body>
+
+</html>
