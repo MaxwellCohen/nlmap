@@ -50,13 +50,16 @@
           },
           height: '100%',
           legend: {
-            align: 'right',
+            align: 'center',
             verticalAlign: 'top',
-            x: -100,
-            y: 70,
+            //x: -100,
+            y: 30,
             floating: true,
-            layout: 'vertical',
+            layout: 'horizotal',
             valueDecimals: 0,
+            title: {
+              text: 'Joe Biden Win Probability'
+            },
             backgroundColor: ( // theme
               Highcharts.defaultOptions &&
               Highcharts.defaultOptions.legend &&
@@ -68,23 +71,12 @@
             enableButtons: false
           },
           colorAxis: {
-            dataClasses: [{
-                from: 0,
-                to: 35,
-                color: '#C40401',
-                name: 'Trump'
-              }, {
-                from: 35,
-                to: 65,
-                color: '#9E8767',
-                name: 'Toss up'
-              },
-              {
-                from: 65,
-                to: 100,
-                color: '#0200D0',
-                name: 'Biden'
-              }
+            min: 0,
+            max: 100,
+            stops: [
+              [0, '#C40401'],
+              [.50, '#ffffff'],
+              [1, '#0200D0']
             ]
           },
           series: [{
@@ -149,8 +141,8 @@
     });
 
 
-    function formatVal (v) {
-      return "Biden - " + Math.round(v) + "%, Trump - " + Math.round(100 - v) +"%"
+    function formatVal(v) {
+      return "Biden - " + Math.round(v) + "%, Trump - " + Math.round(100 - v) + "%"
     }
   </script>
 </body>
