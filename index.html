@@ -37,6 +37,7 @@
         var econ = columns[3];
         var fte = columns[4];
         var JHK = columns[6];
+        var decisionDesk = columns[7];
         var mapData = Highcharts.maps['countries/us/us-all'];
         var options = {
           chart: {
@@ -98,6 +99,7 @@
                   '<p><b>' + formatVal(this.value) + '</b><br/>' +
                   '<p><b>538 : </b>' + formatVal(this.fte) + '<p><br/>' +
                   '<p><b>Economist : </b>' + formatVal(this.econ) + '<p><br/>' +
+                  '<p><b>Decision Desk : </b>' + formatVal(this.decisionDesk) + '<p><br/>' +
                   '<p><b>JHK : </b> ' + formatVal(this.JHK) + '<p><br/>';
               }
             },
@@ -122,6 +124,7 @@
               econ: econ[i].toFixed(2),
               fte: fte[i].toFixed(2),
               JHK: JHK[i].toFixed(2),
+              decisionDesk: decisionDesk[i].toFixed(2),
               name: names[i],
               'postal-code': postalCode,
               row: i
