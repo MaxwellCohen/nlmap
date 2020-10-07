@@ -47,11 +47,15 @@
             borderWidth: 1
           },
           title: {
-            text: 'Neoliberal Project\'s Election Model for ' + percent[0].replace('Biden win prob. on ', '')
+            text: 'Neoliberal Project\'s Election Model for ' + percent[0].replace('Biden win prob. on ', '') 
           },
+          subtitle: {
+            text: '<p style="text-align: center;">' +columns[11][0] + '<br>' + columns[11][1]+ '</p>',
+            useHTML: true
+        },
           height: '100%',
           legend: {
-            align: 'center',
+            align: 'right',
             verticalAlign: 'top',
             //x: -100,
             y: 30,
