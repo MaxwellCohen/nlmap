@@ -37,6 +37,7 @@
         var percent = columns[1];
         var econ = columns[3];
         var fte = columns[4];
+        var ec = columns[5];
         var JHK = columns[6];
         var decisionDesk = columns[7];
         var mapData = Highcharts.maps['countries/us/us-all'];
@@ -100,7 +101,7 @@
             tooltip: {
               headerFormat: '',
               pointFormatter: function () {
-                return '<b>' + this.name + '</b><br/>' +
+                return '<b>' + this.name + ' - ' +this.ec+ ' </b><br/>' +
                   '<p><b>' + formatVal(this.value) + '</b><br/>' +
                   '<p><b>538 : </b>' + formatVal(this.fte) + '<p><br/>' +
                   '<p><b>Economist : </b>' + formatVal(this.econ) + '<p><br/>' +
@@ -129,6 +130,7 @@
               econ: econ[i].toFixed(2),
               fte: fte[i].toFixed(2),
               JHK: JHK[i].toFixed(2),
+              ec: ec[i],
               decisionDesk: decisionDesk[i].toFixed(2),
               name: names[i],
               'postal-code': postalCode,
